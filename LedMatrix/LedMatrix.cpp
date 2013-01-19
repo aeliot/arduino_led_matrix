@@ -1,3 +1,12 @@
+/*****************************************
+ * LedMatrix                             *
+ * by: Adam Eliot                        *
+ *                                       *
+ * An arduino library for controlling an *
+ * 8x8 led matrix.                       *
+ *                                       *
+ *****************************************/
+
 #include "LedMatrix.h"
 #include "Arduino.h"
 
