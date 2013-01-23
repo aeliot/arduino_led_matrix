@@ -1,5 +1,8 @@
 #include <LedMatrix.h>
 
+// clock = 2
+// data = 6
+// latch = 4
 Display leds(2, 6, 4);
 
 void setup(){
@@ -7,16 +10,10 @@ void setup(){
 
 int i = 0;
 int k = 0;
-char Disp = 'A';
 
 void loop(){
-  leds.setChar(Disp + i, 0, Display::RED);
-  if(i == 0){
-    leds.setChar(Disp, 1, Display::RED);
-  }
-  else{
-    leds.setChar(Disp + i + 1, 1, Display::RED);
-  }
+  leds.setChar('A' + i, 0, Display::RED);
+  leds.setChar('A' + i + 1, 1, Display::RED);	
   leds.print();
   
   if('A' + i == 'Z'){

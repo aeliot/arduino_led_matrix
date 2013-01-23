@@ -10,34 +10,49 @@
 #include "LedMatrix.h"
 #include "Arduino.h"
 
+/* Display constructor
+ * Pass in the pin numbers
+ * starts off with a clear image
+ */
 Display::Display(int clock, int data, int latch)
 {
-  
+  //set pins
   clockPin = clock;
   dataPin = data;
   latchPin = latch;
-
+  
+  //set offset
   offset = 0;
 
+  //activate pins
   pinMode(dataPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(latchPin, OUTPUT);
 
+  //make sure display is clear
+  //also clears resigual data from the shifts
   clear(0);
   clear(1);
 }
 
 void Display::print()
 {
+  //scanning iterator
   int k;
+  //bit iterator
   int i;
-  int j;
 
+  //temp data to be pushed
   byte data;
 
+  //cycle through all the columns
   for(k = 0; k < 8; k++){
     digitalWrite(latchPin, LOW);
+
+    //ground the column
     shiftOut(dataPin, clockPin, LSBFIRST, (1 << k));
+
+    //cycle through the colors
     for (i = 0; i < 2; i++){
       data = ((imageArray[0][i][k] << offset) |
 	      (imageArray[1][i][k] >> (8 - offset)));
@@ -58,6 +73,10 @@ void Display::clear(int frame){
   }
 }
 
+/* Displays a character
+ *  uses the commador 64 font
+ */
+
 void Display::setChar(char dispChar, int frame, Color color){
   clear(frame);
 
@@ -70,6 +89,8 @@ void Display::setChar(char dispChar, int frame, Color color){
     layer = 1;
   }
   else{
+    // If both colors need to be active recall
+    // for green then run for red
     setChar(dispChar, frame, Display::GREEN);
     layer = 1;
   }
